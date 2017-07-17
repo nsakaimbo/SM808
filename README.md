@@ -1,7 +1,7 @@
 # SM808
 
 ## Overview
-Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hihat* instruments using 4-, 8-, 16- or 32-step patterns. For example:
+Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hihat* instruments using 4-, 8-, 16- or 32-step patterns. The visual output is timed to bpm. Sample usage:
 
 ```
 > KICK x...x...
@@ -24,6 +24,19 @@ Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hih
 |kick|_|hihat|_|snare+kick|_|hihat|_|
 |kick|_|hihat|_|snare+kick|_|hihat|_|
 |kick|_|hihat|_|snare+kick|_|hihat|_|
+> PRESET
+> Four-on-the-floor loaded
+> PLAY
+|kick|_|hihat|_|kick+snare|_|hihat|_|
+|kick|_|hihat|_|kick+snare|_|hihat|_|
+|kick|_|hihat|_|kick+snare|_|hihat|_|
+|kick|_|hihat|_|kick+snare|_|hihat|_|
+> HIHAT ....
+> PLAY
+|kick|_|_|_|kick+snare|_|_|_|
+|kick|_|_|_|kick+snare|_|_|_|
+|kick|_|_|_|kick+snare|_|_|_|
+|kick|_|_|_|kick+snare|_|_|_|
 > QUIT
 ```
 ## Installation
@@ -55,6 +68,7 @@ Core sequencer functionality is packaged in the **SM808Core** framework with ext
 The command-line tool limits user actions to the following commands:
  ```
  enum Command {
+  case bpm(bpm: Int)
   case kick(pattern: String)
   case hihat(pattern: String)
   case snare(pattern: String)
@@ -67,6 +81,6 @@ The command-line tool limits user actions to the following commands:
  The `Command` initializer will `throw` and print to Standard Error when an invalid input is entered by the user.
  
  ## Opportunities for Enhancement
+ * Add audio feedback
  * Add unit tests!
- * Implement bpm so output is driven with respect to tempo
  * A fun enhancement would be making use of the **SM808Core** framework in an iOS or MacOS project with a more visually-rich interface.
