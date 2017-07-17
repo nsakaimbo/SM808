@@ -44,7 +44,7 @@ Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hih
 ## Installation
 The utility can be run directly in the terminal or from Xcode.
 
-Use installation instructions below, or download the compiled binary at [this link](https://drive.google.com/file/d/0B14svRnOP0fIXzlyTy1tQ0VaR2M/view?usp=sharing) and install to `/usr/local/bin`.
+Use installation instructions below, or download the compiled binary at [this link](https://drive.google.com/file/d/0B14svRnOP0fIU3dnamg5OGVWcW8/view?usp=sharing) and install to `/usr/local/bin`.
 
 ### Requirements
 Xcode 8.3.3 and Xcode command line tools

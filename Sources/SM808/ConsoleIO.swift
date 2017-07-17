@@ -17,6 +17,20 @@ enum OutputType {
   case standard
 }
 
+struct StandardError: TextOutputStream {
+  func write(_ str: String) {
+    guard let data = str.data(using: .utf8) else { return }
+    FileHandle.standardError.write(data)
+  }
+}
+
+struct StandardOutput: TextOutputStream {
+  func write(_ str: String) {
+    guard let data = str.data(using: .utf8) else { return }
+    FileHandle.standardOutput.write(data)
+  }
+}
+
 protocol IOProviding {
   func getInput() -> String
   func write(_ message: String, separator: String, terminator: String, to stream: OutputType)
@@ -31,24 +45,17 @@ extension IOProviding {
     return strData.trimmingCharacters(in: CharacterSet.newlines)
   }
   
-  func _write(_ str: String, to stream: OutputType) {
-    
-    let handle: FileHandle
+  func write(_ message: String, separator: String = " ", terminator: String = "\n", to stream: OutputType = .standard) {
     
     switch stream {
     case .standard:
-      handle = FileHandle.standardOutput
+      var handle = StandardOutput()
+      print(message, separator: separator, terminator: terminator, to: &handle)
     case .error:
-      handle = FileHandle.standardError
+      var handle = StandardError()
+      print(message, separator: separator, terminator: terminator, to: &handle)
     }
-    if let data = str.data(using: .utf8) {
-      handle.write(data)
-    }
-  }
-  
-  func write(_ message: String, separator: String = " ", terminator: String = "\n", to stream: OutputType = .standard) {
-    let str = message + separator + terminator
-    _write(str, to: stream)
+    
   }
 }
 
