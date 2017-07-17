@@ -44,11 +44,12 @@ Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hih
 ## Installation
 The utility can be run directly in the terminal or from Xcode.
 
+Use installation instructions below, or download the compiled binary at [this link](https://drive.google.com/file/d/0B14svRnOP0fIXzlyTy1tQ0VaR2M/view?usp=sharing) and install to `/usr/local/bin`.
+
 ### Requirements
 Xcode 8.3.3 and Xcode command line tools
 
 ### Run in Terminal
-**Known Bug:** It seems there might be a [known bug](https://stackoverflow.com/questions/43174109/in-xcode-8-3-update-c-c-programming-printf-does-not-give-output-without-newli) in Xcode 8.3 that prevents the timed output from showing piecemeal (only as completed lines). I have confirmed that output is correctly timed when running directly from Xcode.
 
  1. Clone this repository
  2. In the terminal, `cd` to the root directory of the project and run the following commands:
