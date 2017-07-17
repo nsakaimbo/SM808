@@ -31,13 +31,24 @@ extension IOProviding {
     return strData.trimmingCharacters(in: CharacterSet.newlines)
   }
   
-  func write(_ message: String, separator: String = " ", terminator: String = "\n", to stream: OutputType = .standard) {
+  func _write(_ str: String, to stream: OutputType) {
+    
+    let handle: FileHandle
+    
     switch stream {
     case .standard:
-      print("\(message)", separator: separator, terminator: terminator)
+      handle = FileHandle.standardOutput
     case .error:
-      fputs("\(message)\n", stderr)
+      handle = FileHandle.standardError
     }
+    if let data = str.data(using: .utf8) {
+      handle.write(data)
+    }
+  }
+  
+  func write(_ message: String, separator: String = " ", terminator: String = "\n", to stream: OutputType = .standard) {
+    let str = message + separator + terminator
+    _write(str, to: stream)
   }
 }
 
