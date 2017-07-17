@@ -9,6 +9,7 @@
 import Foundation
 
 enum Command {
+  case bpm(bpm: Int)
   case kick(pattern: String)
   case hihat(pattern: String)
   case snare(pattern: String)
@@ -29,6 +30,13 @@ enum Command {
     let invalidPattern = arguments.count > 0 ? (arguments[0].rangeOfCharacter(from: validPatternSet) != nil) : false
     
     switch command.lowercased() {
+    
+    case "bpm" where noArguments:
+      throw Error.invalidArgument(reason: "\(command): Invalid argument.\nUsage: \(command) <Integer>")
+    case "bpm" where Int(arguments[0]) == nil:
+      throw Error.invalidArgument(reason: "\(command): Argument must be an integer.\nUsage: \(command) <Integer>")
+    case "bpm":
+      self = Command.bpm(bpm: Int(arguments[0])!)
       
     case "kick" where noArguments,
          "hihat" where noArguments,

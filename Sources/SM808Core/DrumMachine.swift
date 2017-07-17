@@ -6,6 +6,7 @@
 //
 //
 
+import CoreFoundation
 import Foundation
 
 public typealias DidTickClosure = (([Voice], _ barStart: Bool, _ barEnd: Bool)->Void)
@@ -17,9 +18,16 @@ public final class DrumMachine {
   
   public var song: Song?
   
+  public var bpm: Int = 128
+  
+  /// Number of times we'll allow the bar to loop
   public var repeatCount: Int = 4
+  private var _currentLoopCount: Int = 0
   
   private var currentTick: Int = 0
+  
+  private var _runLoop: RunLoop!
+  private var _timer: Timer!
   
   public init(_ song: Song) {
     self.song = song
@@ -30,21 +38,18 @@ public final class DrumMachine {
     self.song = Song(title: "")
   }
   
-  public func play(fromTick tick: Int = 0) throws {
+  @objc func scheduleTick(_ timer: Timer) {
     
-    guard let song = song else {
-      throw Error.noSong(reason: "Song is not set. Use SONG command to set one.")
+    guard let song = song else { return }
+    
+    guard _currentLoopCount < repeatCount else {
+      _timer?.invalidate()
+      _timer = nil
+      
+      CFRunLoopStop(CFRunLoopGetCurrent())
+      _currentLoopCount = 0
+      return
     }
-    
-    guard song.voices.count > 0 else {
-      throw Error.noVoices(reason: "No voices for song. Use VOICE command to add at a voice and pattern.")
-    }
-    
-    currentTick = tick
-    
-    var i = 0
-    
-    while i < repeatCount {
     
       // Each voice's subdivision will be less than or equal to currentTick (derived from voice with highest subdivision)
       // Want to ensure that shorter patterns are looped in sync with longer ones
@@ -63,14 +68,34 @@ public final class DrumMachine {
       let barStart = currentTick == 0
       let barEnd = currentTick == (longestPatternLength - 1)
       
-      didTick?(voicesAtCurrentTick, barStart, barEnd)
+      self.didTick?(voicesAtCurrentTick, barStart, barEnd)
       
       currentTick = (currentTick + 1) % longestPatternLength
       
       if barEnd {
-        i += 1
+        _currentLoopCount += 1
       }
+  }
+  
+  public func play(fromTick tick: Int = 0) throws {
+    
+    guard let song = song else {
+      throw Error.noSong(reason: "Song is not set")
     }
+    
+    guard song.voices.count > 0 else {
+      throw Error.noVoices(reason: "No voices set for song")
+    }
+    
+    currentTick = tick
+    
+    if _runLoop == nil { _runLoop = RunLoop.current }
+
+    _timer = Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(scheduleTick(_:)), userInfo: nil, repeats: true)
+    _runLoop.add(_timer, forMode: .defaultRunLoopMode)
+    
+    _runLoop.run(mode: .defaultRunLoopMode, before: .distantFuture)
+    _timer?.fire()
   }
 }
 
@@ -80,6 +105,13 @@ extension DrumMachine {
   /// Returns the length of the longest pattern in array of song voices
   var longestPatternLength: Int {
     return song?.ticksInBar ?? 0
+  }
+  
+  var interval: Double {
+    if longestPatternLength == 0 {
+      return 0
+    }
+    return ((60 / (Double(bpm)) * 4) / Double(longestPatternLength))
   }
 }
 

@@ -39,10 +39,11 @@ final class SM808 {
   func run() {
     
     consoleIO.write("Welcome to SM808\n", to: .standard)
+    consoleIO.write("- BPM to set tempo. 128bpm by default", to: .standard)
     consoleIO.write("- KICK, HIHAT or SNARE with <pattern> to set a 4-, 8-, 16- or 32 step pattern for the instrument", to: .standard)
     consoleIO.write("- Use \"x\" to play instrument at that step, and \".\" to mute, e.g: kick x...x...", to: .standard)
-    consoleIO.write("- PLAY for a visual representation of the song (limited to 4 repetitions)", to: .standard)
-    consoleIO.write("- PRESET to play a classic \"4-on-the-floor\" sampler", to: .standard)
+    consoleIO.write("- PLAY for a timed visual representation of the song (limited to 4 repetitions)", to: .standard)
+    consoleIO.write("- PRESET to load a classic \"4-on-the-floor\" sampler", to: .standard)
     consoleIO.write("- QUIT to exit", to: .standard)
     
     drumMachine.didTick = didTick
@@ -60,6 +61,9 @@ final class SM808 {
   private func _runCommand(_ command: Command) {
     
     switch command {
+      
+    case .bpm(let bpm):
+      drumMachine.bpm = bpm
       
     case .kick(let pattern):
       drumMachine.song?.removeVoice(named: "kick")
@@ -132,6 +136,6 @@ final class SM808 {
     
     drumMachine.song = song
     
-    try! drumMachine.play()
+    consoleIO.write("Four-on-the-floor loaded", to: .standard)
   }
 }
