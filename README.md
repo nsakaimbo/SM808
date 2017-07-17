@@ -43,7 +43,7 @@ Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hih
 The utility can be run directly in the terminal or from Xcode.
 
 ### Requirements
-Xcode 8.3.3
+Xcode 8.3.3 and Xcode command line tools
 
 ### Run in Terminal
  1. Clone this repository
