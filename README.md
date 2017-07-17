@@ -39,6 +39,8 @@ Basic drum machine sequencer that allows the user to set *kick*, *snare* or *hih
 |kick|_|_|_|kick+snare|_|_|_|
 > QUIT
 ```
+![Output example](/demo.gif?raw=true)
+
 ## Installation
 The utility can be run directly in the terminal or from Xcode.
 
@@ -46,6 +48,8 @@ The utility can be run directly in the terminal or from Xcode.
 Xcode 8.3.3 and Xcode command line tools
 
 ### Run in Terminal
+**Known Bug:** It seems there might be a [known bug](https://stackoverflow.com/questions/43174109/in-xcode-8-3-update-c-c-programming-printf-does-not-give-output-without-newli) in Xcode 8.3 that prevents the timed output from showing piecemeal (only as completed lines). I have confirmed that output is correctly timed when running directly from Xcode.
+
  1. Clone this repository
  2. In the terminal, `cd` to the root directory of the project and run the following commands:
  3. `$ swift build -c release -Xswiftc -static-stdlib` to compile the executable in release mode
@@ -53,11 +57,11 @@ Xcode 8.3.3 and Xcode command line tools
  5. `$ cp -f SM808 /usr/local/bin/SM808` to copy the executable to `/usr/local/bin` 
  6. Now from any terminal session, you can enter `SM808` to run the tool, `CTRL+C` to quit 
 
-### Run/View in Xcode
+### Recommended: Run/View in Xcode
  1. Clone this repository
  2. In the terminal, `cd` to the root directory of the project and run the following commands:
  3. `$ swift package generate-xcodeproj` to generate the Xcode project file
- 4. `open SM808.xcodeproj` to view and build/run the file in Xcode
+ 4. `open SM808.xcodeproj` to view and build/run the file in Xcode and interact with the utility in the Xcode's console
 
 ## External Dependencies
  * None
