@@ -73,7 +73,7 @@ The command-line tool limits user actions to the following commands:
   case hihat(pattern: String)
   case snare(pattern: String)
   case play
-  // Plays a pre-configured "four-on-the-floor" rhythm
+  // Loads a pre-configured "four-on-the-floor" rhythm
   case preset
   case quit
  }
