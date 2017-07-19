@@ -58,7 +58,7 @@ Xcode 8.3.3 and Xcode command line tools
  5. `$ cp -f SM808 /usr/local/bin/SM808` to copy the executable to `/usr/local/bin` 
  6. Now from any terminal session, you can enter `SM808` to run the tool, `CTRL+C` to quit 
 
-### Recommended: Run/View in Xcode
+### Run/View in Xcode
  1. Clone this repository
  2. In the terminal, `cd` to the root directory of the project and run the following commands:
  3. `$ swift package generate-xcodeproj` to generate the Xcode project file
@@ -68,7 +68,9 @@ Xcode 8.3.3 and Xcode command line tools
  * None
 
 ## Highlights
-Core sequencer functionality is packaged in the **SM808Core** framework with extensibility in mind. The `Voice` type is designed to take on any name and even includes an optional  audio file URL. The `Song` type comprises an an array of voices. The `DrumMachine` schedules each voice of the passed-in song to play at the appropriate time. Patterns of different durations can be mixed and matched. 
+Core sequencer functionality is packaged in the **SM808Core** framework with extensibility in mind. The `Voice` type represents the "instrument" being played. The `Song` type comprises an an array of voices. The `DrumMachine` schedules each voice of the passed-in song to play at the appropriate time. Patterns of different durations can be mixed and matched. 
+
+Using a framework facilitates testability and also helps isolate sequencer/domain logic from interface logic. In addition, it also facilitiates reusability (for example, a fun enhancement would be using the **SM808Core** framework in an iOS or MacOS project).
 
 The command-line tool limits user actions to the following commands:
  ```
@@ -88,4 +90,3 @@ The command-line tool limits user actions to the following commands:
  ## Opportunities for Enhancement
  * Add audio feedback
  * Add unit tests!
- * A fun enhancement would be making use of the **SM808Core** framework in an iOS or MacOS project with a more visually-rich interface.
